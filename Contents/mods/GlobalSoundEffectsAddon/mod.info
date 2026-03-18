@@ -1,0 +1,10 @@
+id=GlobalSoundEffectsAddon
+name=Global Sound Effects
+description=With this mod, admins can easily cast audio across the entire game world. 
+description=Just right-click on the ground to access the Global Audio Menu and cast your chosen sound to create a more immersive gaming experience.
+require=GlobalSoundEffects
+poster=poster.png
+tags=Build 41,Misc,Multiplayer,Silly/Fun,Textures
+versionMin=41.0
+
+

@@ -1,0 +1,12 @@
+IGUI_EN = {
+    IGUI_GlobalSoundEffects = "Global Sound Effects",
+    IGUI_GSE_explode = "Explode",
+    IGUI_GSE_firefight = "Firefight",
+    IGUI_GSE_flyby = "Flyby",
+    IGUI_GSE_gunfight = "Gunfight",
+    IGUI_GSE_helicopter = "Helicopter",
+    IGUI_GSE_nuclear = "Nuclear",
+    IGUI_GSE_overflight = "Overflight",
+    IGUI_GSE_siren = "Siren",
+    IGUI_GSE_nightvolatile = "Night is Coming",
+}

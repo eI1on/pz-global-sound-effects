@@ -1,0 +1,18 @@
+module Base
+{
+
+	sound GSE_bells
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_bells.ogg, volume = 0.20, }
+	}
+
+	sound GSE_king
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_king.ogg, volume = 0.20, }
+	}
+
+}

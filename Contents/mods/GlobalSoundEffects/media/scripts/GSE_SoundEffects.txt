@@ -1,0 +1,71 @@
+﻿module Base
+{
+	sound GSE_explode
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_explode.ogg, volume = 0.20, }
+	}
+	
+	sound GSE_firefight
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_firefight.ogg, volume = 0.20, }
+	}
+	
+	sound GSE_flyby
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_flyby.ogg, volume = 0.20, }
+	}
+	
+	sound GSE_gunfight
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_gunfight.ogg, volume = 0.20, }
+	}
+	
+	sound GSE_helicopter
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_helicopter.ogg, volume = 0.20, }
+	}
+	
+	sound GSE_nuclear
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_nuclear.ogg, volume = 0.20, }
+	}
+	
+	sound GSE_overflight
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_overflight.ogg, volume = 0.20, }
+	}
+	
+	sound GSE_siren
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_siren.ogg, volume = 0.20, }
+	}
+
+	sound GSE_nightvolatile
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,	
+		clip { file = media/sound/GSE_nightvolatile.ogg, volume = 0.20, }
+	}
+
+	sound GSE_explode_test
+	{
+		category = Item,
+		maxInstancesPerEmitter = 1,
+		clip { file = media/sound/GSE_explode_test.ogg, volume = 0.20, }
+	}}
