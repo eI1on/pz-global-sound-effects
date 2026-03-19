@@ -8,14 +8,15 @@ GSE_TriggerShared.MODDATA_KEY = "GSE_Triggers"
 -- Trigger schema:
 -- {
 --   id = string,
+--   label = string,
 --   enabled = boolean,
 --   shape = "radius"|"rect",
 --   x = number, y = number, z = number, radius = number,           -- radius shape
 --   x1 = number, y1 = number, x2 = number, y2 = number, z = number, -- rect shape (2 corners)
 --   sound = string,
 --   volume = number,
+--   priority = number,      -- higher value wins when areas overlap
 --   loop = boolean,          -- if true: start loop on enter, stop on exit (best-effort)
---   soundGlobal = boolean,   -- if true: ignore epicenter and play for player regardless of coords
 -- }
 
 local function toInt(v)
@@ -33,12 +34,13 @@ function GSE_TriggerShared.normalizeTrigger(t)
 	local out = {}
 
 	out.id = tostring(t.id or "")
+	out.label = tostring(t.label or "")
 	out.enabled = t.enabled == true
 	out.shape = (t.shape == "rect") and "rect" or "radius"
 	out.sound = tostring(t.sound or "")
 	out.volume = tonumber(t.volume) or 1.0
+	out.priority = math.floor(tonumber(t.priority) or 0)
 	out.loop = t.loop == true
-	out.soundGlobal = t.soundGlobal == true
 	out.z = toInt(t.z) or 0
 
 	if out.shape == "radius" then
@@ -73,6 +75,9 @@ function GSE_TriggerShared.normalizeTrigger(t)
 	end
 	if out.volume > 5 then
 		out.volume = 5
+	end
+	if out.label == "" then
+		out.label = out.sound
 	end
 	if out.id == "" then
 		return nil

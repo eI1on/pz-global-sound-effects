@@ -3,18 +3,131 @@ id=3053132804
 title=[B41] Global Sound Effects
 description=Unleash immersive audio experiences across your game world with Global Sound Effects.  Perfect for admins aiming to enhance atmospheric immersion.
 description=
-description=[b] Easy to use: [/b] Right-click on the ground to open the Global Sound Effects Menu, and select the sound to play it instantly anywhere.
+description=Global Sound Effects is an admin-focused audio tool for Project Zomboid. It lets admins manually broadcast sounds, queue temporary effects, and create persistent automatic sound zones that react to player movement.
 description=
-description=[b] Features [/b]
+description=[b]How it works[/b]
 description=[list]
-description=[*] Volume control for each sound effect
-description=[*] Option to specify the area epicenter and size for the casted sound effect
-description=[*] Toggle for choosing between global* and localized audio
-description=[*] Play button on each list item
+description=[*] Right-click the ground and open [i]Global Sound Effects Menu[/i].
+description=[*] The [b]left side[/b] of the panel is for [b]Manual Playback[/b]: temporary admin-triggered sounds, the currently playing sound, and the effects queue.
+description=[*] The [b]right side[/b] of the panel is for [b]Persistent Areas / Epicenters[/b]: saved automatic sound zones that play when players enter them.
+description=[*] The currently selected sound in the left-side sound list is also the sound used when saving a persistent area or epicenter on the right side.
 description=[/list]
-description=[i]Note: When the sound is global, the epicenter area and size are ignored. [/i]
 description=
-description=Ideal for enhancing role-play, creating atmospheric events, or just adding a bit of fun to the game environment.
+description=[b]Manual Playback[/b]
+description=[list]
+description=[*] Choose a sound category, select a sound, then either [b]double-click the sound[/b] or press [b]Play Selected[/b].
+description=[*] Manual sounds can be played as [b]Global Broadcast[/b] or from a local [b]Epicenter Radius[/b].
+description=[*] Global playback ignores coordinates and radius.
+description=[*] Local manual playback uses the selected epicenter and radius if Target is selected as "Epicenter Radius".
+description=[*] The queue/current playback list shows what is playing right now and what is waiting next.
+description=[*] [b]Manual/admin playback has priority over persistent area playback while it is active.[/b]
+description=[/list]
+description=
+description=[b]Queue and Loop Rules[/b]
+description=[list]
+description=[*] If [b]Queue[/b] is enabled, manual sounds are lined up and played in order.
+description=[*] If [b]Queue[/b] is disabled, the latest manual sound replaces the current manual playback and clears older queued manual entries.
+description=[*] If [b]Loop[/b] is enabled for manual playback, the sound repeats continuously until another manual sound replaces it or playback is stopped.
+description=[*] A sound/effect cannot be [b]Looped[/b] and [b]Queued[/b] at the same time. The UI enforces this because logically a looping sound would block the queue forever.
+description=[/list]
+description=
+description=[b]Persistent Areas / Epicenters[/b]
+description=[list]
+description=[*] Create permanent automatic playback zones as either a [b]Rectangle Area[/b] using two corners or an [b]Epicenter Radius[/b] using a center point and radius.
+description=[*] Admins can preview selected saved zones directly in the world while the panel is open.
+description=[*] Non-loop persistent sounds play [b]once when a player enters[/b] the saved area/epicenter, then do not replay again until that player leaves and re-enters.
+description=[*] Looped persistent sounds replay while the player remains inside the zone. If a player leaves during a pass, the current pass finishes and no new pass starts.
+description=[*] When multiple saved areas overlap, the trigger with the [b]highest Priority[/b] wins, if priority is the same, the top most area on the list has priority.
+description=[/list]
+description=
+description=[b]Saving Persistent Triggers[/b]
+description=[list]
+description=[*] Selecting an existing saved trigger loads it into the editor on the right so it can be changed.
+description=[*] [b]Changes are not applied automatically.[/b] After editing a trigger, you must press [b]Save Trigger[/b].
+description=[*] Pressing [b]New Trigger[/b] prepares a fresh trigger in the editor, but it [b]will not appear in the saved list until you press Save Trigger[/b].
+description=[*] The selected sound from the left-side sound list is required when saving a trigger.
+description=[*] Saved triggers can be enabled/disabled, edited, overwritten by saving again, or deleted from the list.
+description=[/list]
+description=
+description=[hr][/hr]
+description=[h2]Addon Support[/h2]
+description=You can expand this mod with your own sound packs [b]without editing the main mod[/b]. The included [i]GlobalSoundEffectsAddon[/i] demonstrates the intended structure.
+description=
+description=[h3]What an addon needs[/h3]
+description=[olist]
+description=[*] Create your sound events in your addon under [i]/media/scripts[/i].
+description=[*] Place the actual audio files in your addon under [i]/media/sound[/i].
+description=[*] Register the sounds into Global Sound Effects through [i]GSE_Config[/i].
+description=[*] Add optional translation keys so the UI shows friendly names instead of raw event ids.
+description=[/olist]
+description=
+description=[h3]Example script file[/h3]
+description=[i]Taken from the included example addon structure.[/i]
+description=[code]/media/scripts/GSEAddon_SoundEffects.txt[/code]
+description=[code]
+description=module Base
+description={
+description=    sound GSE_bells
+description=    {
+description=        category = Item,
+description=        maxInstancesPerEmitter = 1,
+description=        clip { file = media/sound/GSE_bells.ogg, volume = 0.20, }
+description=    }
+description=
+description=    sound GSE_king
+description=    {
+description=        category = Item,
+description=        maxInstancesPerEmitter = 1,
+description=        clip { file = media/sound/GSE_king.ogg, volume = 0.20, }
+description=    }
+description=}
+description=[/code]
+description=
+description=[h3]Example registration file[/h3]
+description=[i]This is the important part that makes your sounds appear in the left-side category list and become valid for manual playback and persistent triggers.[/i]
+description=[code]/media/lua/client/GlobalSoundEffectsAddon.lua[/code]
+description=[code]
+description=if not getActivatedMods():contains("GlobalSoundEffects") then
+description=    return
+description=end
+description=
+description=local GSE_Config = require("GSE_Config")
+description=
+description=GSE_Config.registerCategories({
+description=    Miscellaneous = { "GSE_bells" },
+description=    Parody = { "GSE_king" },
+description=})
+description=[/code]
+description=
+description=[h3]Alternative registration[/h3]
+description=[code]/media/lua/client/GlobalSoundEffectsAddon.lua[/code]
+description=[code]
+description=local GSE_Config = require("GSE_Config")
+description=
+description=GSE_Config.addSound("Miscellaneous", "GSE_bells")
+description=GSE_Config.addSound("Parody", "GSE_king")
+description=[/code]
+description=
+description=[h3]Optional UI translations[/h3]
+description=[code]/media/lua/shared/Translate/EN/IG_UI_EN.txt[/code]
+description=[code]
+description=IGUI_EN = {
+description=    IGUI_GSE_bells = "Bells",
+description=    IGUI_GSE_king = "The King",
+description=}
+description=[/code]
+description=
+description=[h3]Important notes for addon authors[/h3]
+description=[list]
+description=[*] Your registered sound name must exactly match the scripted sound event name.
+description=[*] If a sound is not registered through [i]GSE_Config[/i], the server will reject playback for it.
+description=[*] Once registered, addon sounds automatically appear in the panel and can be used for both [b]Manual Playback[/b] and [b]Persistent Areas / Epicenters[/b].
+description=[*] Persistent triggers use the currently selected sound from the left-side sound list, so addon sounds work there too as soon as they show up in the UI.
+description=[/list]
+description=
+description=[i]For a working example, inspect the included [b]GlobalSoundEffectsAddon[/b] files in this Workshop package.[/i]
+description=
+description=Ideal for role-play servers, admin-run events, ambient storytelling, alarms, military flyovers, horror scenes, and other world-scale audio moments.
 description=
 description=[url=https://discord.gg/asA9BuAasd] [img] https://raw.githubusercontent.com/eI1on/workshop_resources/main/workshop_images/Workshop_Desc_PZ_Modding_Disc.png [/img] [/url]
 description=[img] https://imgur.com/eZp8dXD.png [/img]

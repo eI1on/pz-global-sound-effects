@@ -12,15 +12,12 @@ function GlobalSoundEffects.ReceiveAudio(args)
 
 	local cmd = tostring(args and args.cmd or "play")
 	if cmd == "stop" then
-		GSE_AudioEngine.stopAll()
+		GSE_AudioEngine.stopRequestedPlayback()
 		return
 	end
 
 	local sound = tostring(args and args.sound or "")
 	if not GSE_Config.isValidSound(sound) then
-		if isDebugEnabled() then
-			print("[Global Sound Effects] Invalid sound: " .. tostring(sound))
-		end
 		return
 	end
 
@@ -57,6 +54,8 @@ function GlobalSoundEffects.ReceiveAudio(args)
 		volume = tonumber(args and args.volume) or 1.0,
 		loop = args and args.loop == true,
 		queue = args and args.queue or nil, -- "enqueue" to queue, otherwise interrupt
+		source = "manual",
+		label = tostring(args and args.label or sound),
 	})
 end
 
@@ -71,8 +70,14 @@ Events.OnServerCommand.Add(function(module, command, args)
 	end
 end)
 
-Events.OnCreatePlayer.Add(function()
-	GSE_Triggers_Client.init()
-end)
+local doCommand = false;
+local function sendCommand()
+	if doCommand then
+		GSE_Triggers_Client.init()
+		Events.OnTick.Remove(sendCommand);
+	end
+	doCommand = true;
+end
+Events.OnTick.Add(sendCommand);
 
 return GlobalSoundEffects

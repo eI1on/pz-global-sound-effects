@@ -1,0 +1,4 @@
+IGUI_EN = {
+    IGUI_GSE_bells = "Bells",
+    IGUI_GSE_king = "King",
+}

@@ -129,7 +129,7 @@ function GSE_Config.getCategoriesSorted()
 		table.insert(out, k)
 	end
 	table.sort(out, function(a, b)
-		-- Always keep default/standard category first.
+		-- always keep default/standard category first.
 		if a == GSE_Config.DEFAULT_CATEGORY then
 			return true
 		end

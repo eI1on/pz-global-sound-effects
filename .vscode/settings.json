@@ -20,7 +20,7 @@
         "require"
     ],
         "[lua]": {
-        "editor.defaultFormatter": "JohnnyMorganz.stylua",
+        "editor.defaultFormatter": "sumneko.lua",
         "editor.formatOnSave": true
     },
     "stylua.targetReleaseVersion": "latest"

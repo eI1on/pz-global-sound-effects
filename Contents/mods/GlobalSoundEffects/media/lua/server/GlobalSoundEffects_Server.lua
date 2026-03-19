@@ -51,6 +51,7 @@ function GlobalSoundEffects.SendAudio(playerObj, args)
 	local payload = {
 		cmd = "play",
 		sound = sound,
+		label = tostring(args.label or sound),
 		volume = volume,
 		loop = args.loop == true,
 		queue = args.queue, -- "enqueue" to queue, otherwise interrupt
