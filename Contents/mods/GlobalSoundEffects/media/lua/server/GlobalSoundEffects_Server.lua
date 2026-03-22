@@ -1,6 +1,3 @@
--- Global Sound Effects - Server
--- server is the authority: validates and rebroadcasts requests to clients
-
 local GSE_Config = require("GSE_Config")
 require("GSE_Triggers_Server")
 

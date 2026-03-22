@@ -258,7 +258,8 @@ function GlobalSoundEffects_Panel:initialise()
 	local deleteW = buttonWidth(UIFont.Small, deleteTriggerText)
 	local manualLabelColW = maxTextWidth(UIFont.Small, { targetText, volumeText, radiusText })
 	local triggerLabelColW = maxTextWidth(UIFont.Small, { shapeText, labelText, priorityText, volumeText, radiusText })
-	local manualTargetComboMinW = fieldWidth(UIFont.Small, manualTargetGlobalText, fieldWidth(UIFont.Small, shapeRadiusText))
+	local manualTargetComboMinW = fieldWidth(UIFont.Small, manualTargetGlobalText,
+		fieldWidth(UIFont.Small, shapeRadiusText))
 	local triggerShapeComboMinW = fieldWidth(UIFont.Small, shapeRectText, fieldWidth(UIFont.Small, shapeRadiusText))
 	local minSliderW = fieldWidth(UIFont.Small, UI_LAYOUT.SLIDER_WIDTH_SAMPLE)
 	local leftMinWidth = math.max(
@@ -315,7 +316,8 @@ function GlobalSoundEffects_Panel:initialise()
 	local headerHgt = math.max(FONT_HGT_LARGE, btnHgt)
 	local topInset = titleY + headerHgt + UI_LAYOUT.SECTION_GAP
 
-	self.titleLabel = makeLabel(self, math.floor((self.width - measureText(UIFont.Large, titleText)) / 2), titleY, titleText,
+	self.titleLabel = makeLabel(self, math.floor((self.width - measureText(UIFont.Large, titleText)) / 2), titleY,
+		titleText,
 		UIFont.Large, { r = 1, g = 1, b = 1, a = 1 })
 
 	self.closeBtn = ISButton:new(self.width - margin - closeW, titleY, closeW, btnHgt, closeText, self,
@@ -419,7 +421,8 @@ function GlobalSoundEffects_Panel:initialise()
 
 	self.manualVolumeLabel = makeLabel(self, margin, rowLabelY(leftY, comboHgt, UIFont.Small), volumeText, UIFont.Small)
 	self.manualVolumeValue = makeLabel(self, manualValueX, rowLabelY(leftY, comboHgt, UIFont.Small), "1.0", UIFont.Small)
-	_, self.manualVolumeSlider = ISDebugUtils.addSlider(self, "ManualVolume", leftControlX, leftY, manualSliderW, comboHgt,
+	_, self.manualVolumeSlider = ISDebugUtils.addSlider(self, "ManualVolume", leftControlX, leftY, manualSliderW,
+		comboHgt,
 		GlobalSoundEffects_Panel.onSliderChange)
 	self.manualVolumeSlider.valueLabel = self.manualVolumeValue
 	self.manualVolumeSlider:setValues(0, 5, 0.05, 0.05, true)
@@ -428,14 +431,16 @@ function GlobalSoundEffects_Panel:initialise()
 
 	self.manualLoopTick = makeTickBox(self, margin, leftY, manualToggleLoopW, loopText, false,
 		GlobalSoundEffects_Panel.onManualFlagsChanged)
-	self.manualQueueTick = makeTickBox(self, margin + manualToggleLoopW + UI_LAYOUT.CONTROL_GAP, leftY, manualToggleQueueW,
+	self.manualQueueTick = makeTickBox(self, margin + manualToggleLoopW + UI_LAYOUT.CONTROL_GAP, leftY,
+		manualToggleQueueW,
 		queueText, false, GlobalSoundEffects_Panel.onManualFlagsChanged)
 	leftY = leftY + comboHgt + UI_LAYOUT.ROW_GAP
 
 	self.manualCoordsLabel = makeLabel(self, margin, leftY, manualCoordsGlobalText, UIFont.Small)
 	leftY = leftY + FONT_HGT_SMALL + UI_LAYOUT.ROW_GAP
 	self.manualRadiusLabel = makeLabel(self, margin, rowLabelY(leftY, entryHgt, UIFont.Small), radiusText, UIFont.Small)
-	self.manualRadiusEntry = makeEntry(self, manualRadiusX, leftY, numberFieldW, entryHgt, tostring(UI_LAYOUT.DEFAULT_RADIUS),
+	self.manualRadiusEntry = makeEntry(self, manualRadiusX, leftY, numberFieldW, entryHgt,
+		tostring(UI_LAYOUT.DEFAULT_RADIUS),
 		true)
 	self.pickManualBtn = ISButton:new(manualPickX, leftY, pickManualW, btnHgt, pickEpicenterText, self,
 		GlobalSoundEffects_Panel.onClick)
@@ -478,12 +483,15 @@ function GlobalSoundEffects_Panel:initialise()
 	self.triggerLabelEntry = makeEntry(self, rightControlX, rightY, rightControlW, entryHgt, "", false)
 	rightY = rightY + entryHgt + UI_LAYOUT.ROW_GAP
 
-	self.triggerPriorityLabel = makeLabel(self, rightX, rowLabelY(rightY, entryHgt, UIFont.Small), priorityText, UIFont.Small)
+	self.triggerPriorityLabel = makeLabel(self, rightX, rowLabelY(rightY, entryHgt, UIFont.Small), priorityText,
+		UIFont.Small)
 	self.triggerPriorityEntry = makeEntry(self, rightControlX, rightY, rightControlW, entryHgt, "0", true)
 	rightY = rightY + entryHgt + UI_LAYOUT.ROW_GAP
 
-	self.triggerVolumeLabel = makeLabel(self, rightX, rowLabelY(rightY, comboHgt, UIFont.Small), volumeText, UIFont.Small)
-	self.triggerVolumeValue = makeLabel(self, triggerValueX, rowLabelY(rightY, comboHgt, UIFont.Small), "1.0", UIFont.Small)
+	self.triggerVolumeLabel = makeLabel(self, rightX, rowLabelY(rightY, comboHgt, UIFont.Small), volumeText, UIFont
+		.Small)
+	self.triggerVolumeValue = makeLabel(self, triggerValueX, rowLabelY(rightY, comboHgt, UIFont.Small), "1.0",
+		UIFont.Small)
 	_, self.triggerVolumeSlider = ISDebugUtils.addSlider(self, "TriggerVolume", rightControlX, rightY, triggerSliderW,
 		comboHgt, GlobalSoundEffects_Panel.onSliderChange)
 	self.triggerVolumeSlider.valueLabel = self.triggerVolumeValue
@@ -499,8 +507,10 @@ function GlobalSoundEffects_Panel:initialise()
 
 	self.triggerCenterLabel = makeLabel(self, rightX, rightY, centerPlaceholderText, UIFont.Small)
 	rightY = rightY + FONT_HGT_SMALL + UI_LAYOUT.ROW_GAP
-	self.triggerRadiusLabel = makeLabel(self, rightX, rowLabelY(rightY, entryHgt, UIFont.Small), radiusText, UIFont.Small)
-	self.triggerRadiusEntry = makeEntry(self, rightControlX, rightY, numberFieldW, entryHgt, tostring(UI_LAYOUT.DEFAULT_RADIUS),
+	self.triggerRadiusLabel = makeLabel(self, rightX, rowLabelY(rightY, entryHgt, UIFont.Small), radiusText, UIFont
+		.Small)
+	self.triggerRadiusEntry = makeEntry(self, rightControlX, rightY, numberFieldW, entryHgt,
+		tostring(UI_LAYOUT.DEFAULT_RADIUS),
 		true)
 	self.pickTriggerCenterBtn = ISButton:new(rightControlX + numberFieldW + UI_LAYOUT.CONTROL_GAP, rightY, pickCenterW,
 		btnHgt, pickCenterText, self, GlobalSoundEffects_Panel.onClick)
@@ -565,7 +575,8 @@ function GlobalSoundEffects_Panel:initialise()
 	self.deleteTriggerBtn:instantiate()
 	self:addChild(self.deleteTriggerBtn)
 
-	self.triggerStatusLabel = makeLabel(self, rightX + deleteW + UI_LAYOUT.CONTROL_GAP, rowLabelY(rightY, btnHgt, UIFont.Small),
+	self.triggerStatusLabel = makeLabel(self, rightX + deleteW + UI_LAYOUT.CONTROL_GAP,
+		rowLabelY(rightY, btnHgt, UIFont.Small),
 		statusDefaultText, UIFont.Small, { r = 0.8, g = 0.84, b = 0.88, a = 1 })
 	local rightContentBottom = rightY + btnHgt
 
@@ -763,7 +774,8 @@ function GlobalSoundEffects_Panel:updateCoordinateLabels()
 	if self:isManualGlobal() then
 		self.manualCoordsLabel:setName(uiText("ManualCoordsGlobal"))
 	else
-		self.manualCoordsLabel:setName(self:formatCoordLine(uiText("Epicenter"), self.manualX, self.manualY, self.manualZ))
+		self.manualCoordsLabel:setName(self:formatCoordLine(uiText("Epicenter"), self.manualX, self.manualY, self
+			.manualZ))
 	end
 
 	self.triggerCenterLabel:setName(self:formatCoordLine(uiText("Center"), self.triggerCenterX, self.triggerCenterY,
@@ -889,7 +901,8 @@ function GlobalSoundEffects_Panel:refreshPlaybackList(force)
 
 	self.queueList:clear()
 	if current then
-		self.currentSoundLabel:setName(uiText("NowPlayingPrefix") .. tostring(current.label or getSoundLabel(current.sound)))
+		self.currentSoundLabel:setName(uiText("NowPlayingPrefix") ..
+			tostring(current.label or getSoundLabel(current.sound)))
 	else
 		self.currentSoundLabel:setName(uiText("NowPlayingPrefix") .. uiText("NowPlayingIdle"))
 	end
@@ -1228,7 +1241,8 @@ end
 function GlobalSoundEffects_Panel.openPanel(x, y, playerObj, square)
 	if GlobalSoundEffects_Panel.instance == nil then
 		GSE_Triggers_Client.init()
-		local window = GlobalSoundEffects_Panel:new(x, y, UI_LAYOUT.MIN_PANEL_WIDTH, UI_LAYOUT.MIN_PANEL_HEIGHT, playerObj,
+		local window = GlobalSoundEffects_Panel:new(x, y, UI_LAYOUT.MIN_PANEL_WIDTH, UI_LAYOUT.MIN_PANEL_HEIGHT,
+			playerObj,
 			square)
 		window:initialise()
 		local maxX = math.max(UI_LAYOUT.SCREEN_PAD, getCore():getScreenWidth() - window.width - UI_LAYOUT.SCREEN_PAD)
