@@ -6,5 +6,4 @@ require=GlobalSoundEffects
 poster=poster.png
 tags=Build 41,Misc,Multiplayer,Silly/Fun,Textures
 versionMin=41.0
-
-
+require=ElyonLib

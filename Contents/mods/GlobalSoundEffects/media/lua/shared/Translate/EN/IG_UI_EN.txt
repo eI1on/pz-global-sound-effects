@@ -1,7 +1,6 @@
 IGUI_EN = {
     IGUI_GlobalSoundEffects = "Global Sound Effects",
     IGUI_GSE_None = "None",
-    IGUI_GSE_ContextMenuOption = "Global Sound Effects Menu",
     IGUI_GSE_ManualTitle = "Manual Playback",
     IGUI_GSE_ManualHint = "Temporary admin sounds and queue.",
     IGUI_GSE_CategoryTitle = "Sound Category",

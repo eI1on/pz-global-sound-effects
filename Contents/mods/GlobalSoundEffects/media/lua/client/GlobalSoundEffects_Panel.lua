@@ -1254,37 +1254,19 @@ function GlobalSoundEffects_Panel.openPanel(x, y, playerObj, square)
 	end
 end
 
-local function onFillWorldObjectContextMenu(player, context, worldobjects, test)
-	if not player then
-		return
-	end
+local MenuDock = require("ElyonLib/UI/MenuDock/MenuDock")
 
-	local hasAccess = false
-	if not isClient() and not isServer() then
-		hasAccess = true
-	elseif isClient() then
-		hasAccess = isAdmin()
-	end
-
-	if getCore():getDebug() then
-		hasAccess = true
-	end
-
-	local square = nil
-	for _, v in ipairs(worldobjects) do
-		square = v:getSquare()
-		break
-	end
-
-	if hasAccess and square then
-		local playerObj = getSpecificPlayer(player)
-		local GSE_contextMenu = context:addOptionOnTop(uiText("ContextMenuOption"), worldobjects, function()
-			local x = (getCore():getScreenWidth() - UI_LAYOUT.MIN_PANEL_WIDTH) / 2
-			local y = math.max(UI_LAYOUT.SCREEN_PAD, (getCore():getScreenHeight() - UI_LAYOUT.MIN_PANEL_HEIGHT) / 2)
-			GlobalSoundEffects_Panel.openPanel(x, y, playerObj, square)
-		end)
-		GSE_contextMenu.iconTexture = getTexture("media/ui/GSE_volume.png")
-	end
-end
-
-Events.OnFillWorldObjectContextMenu.Add(onFillWorldObjectContextMenu)
+MenuDock.registerButton({
+	id = "global_sound_effects",
+	title = getText("IGUI_GlobalSoundEffects"),
+	icon = "media/ui/ui_icon_global_sound_effects.png",
+	minimumAccessLevel = "Admin",
+	allowSinglePlayer = true,
+	onClick = function(playerNum, entry)
+		local playerObj = getSpecificPlayer(playerNum)
+		local square = playerObj and playerObj:getCurrentSquare()
+		local x = (getCore():getScreenWidth() - UI_LAYOUT.MIN_PANEL_WIDTH) / 2
+		local y = math.max(UI_LAYOUT.SCREEN_PAD, (getCore():getScreenHeight() - UI_LAYOUT.MIN_PANEL_HEIGHT) / 2)
+		GlobalSoundEffects_Panel.openPanel(x, y, playerObj, square)
+	end,
+})
