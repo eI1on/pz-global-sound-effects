@@ -323,9 +323,6 @@ function GlobalSoundEffects_Panel:initialise()
 	self._enabledTickW = tickW(sm, enabledText)
 	self._trigLoopTickW = tickW(sm, loopText)
 
-	self._leftLblW = maxTextWidth(sm, { targetText, volumeText, radiusText })
-	self._rightLblW = maxTextWidth(sm, { shapeText, labelText, priorityText, volumeText, radiusText })
-
 	self._tgtLblW = measureText(sm, targetText)
 	self._volLblW = measureText(sm, volumeText)
 	self._radLblW = measureText(sm, radiusText)
@@ -524,87 +521,6 @@ function GlobalSoundEffects_Panel:initialise()
 	self:updateMarkers()
 	self:refreshPlaybackList(true)
 	self:refreshTriggerList(true)
-
-	do
-		local p = C.LAYOUT.PAD
-		local rG = C.LAYOUT.ROW_GAP
-		local sG = C.LAYOUT.SEC_GAP
-		local lG = C.LAYOUT.LBL_GAP
-		local tY = self:titleBarHeight() + p
-		local qH = listH(iH, C.LIST.QUEUE_ROWS)
-		local leftMin = tY
-			+ FONT_HGT_MEDIUM
-			+ lG
-			+ FONT_HGT_SMALL
-			+ sG
-			+ FONT_HGT_SMALL
-			+ lG
-			+ bH
-			+ sG
-			+ FONT_HGT_SMALL
-			+ lG
-			+ iH * 3
-			+ rG
-			+ bH
-			+ rG
-			+ FONT_HGT_SMALL
-			+ lG
-			+ FONT_HGT_SMALL
-			+ sG
-			+ FONT_HGT_SMALL
-			+ lG
-			+ qH
-			+ sG
-			+ FONT_HGT_SMALL
-			+ lG
-			+ FONT_HGT_SMALL
-			+ sG
-			+ bH
-			+ rG
-			+ bH
-			+ rG
-			+ bH
-			+ rG
-			+ FONT_HGT_SMALL
-			+ rG
-			+ bH
-			+ rG
-			+ FONT_HGT_SMALL
-			+ p
-		local rightMin = tY
-			+ FONT_HGT_MEDIUM
-			+ lG
-			+ FONT_HGT_SMALL
-			+ sG
-			+ bH
-			+ rG
-			+ bH
-			+ rG
-			+ bH
-			+ rG
-			+ bH
-			+ rG
-			+ bH
-			+ rG
-			+ FONT_HGT_SMALL
-			+ rG
-			+ bH
-			+ rG
-			+ FONT_HGT_SMALL
-			+ lG
-			+ bH
-			+ rG
-			+ bH
-			+ sG
-			+ FONT_HGT_SMALL
-			+ lG
-			+ iH * 3
-			+ rG
-			+ bH
-			+ p
-		self.minimumHeight = math.max(leftMin, rightMin)
-	end
-
 	self:layoutChildren()
 end
 
@@ -620,28 +536,30 @@ function GlobalSoundEffects_Panel:layoutChildren()
 	local iH = self._itemH or (FONT_HGT_SMALL + lblG * 2)
 	local numW = self._numW or fieldW(sm, C.SAMPLE.NUMBER)
 	local slValW = self._slValW or fieldW(sm, C.SAMPLE.SLIDER_VAL)
-	local lLblW = self._leftLblW or 0
-	local rLblW = self._rightLblW or 0
-
-	local lTgtW = self._tgtLblW or lLblW
-	local lVolW = self._volLblW or lLblW
-	local lRadW = self._radLblW or lLblW
-	local rShpW = self._shapeLblW or rLblW
-	local rLbW = self._lbLblW or rLblW
-	local rPriW = self._prioLblW or rLblW
-	local rVolW = self._volLblW or rLblW
+	local lTgtW = self._tgtLblW or 0
+	local lVolW = self._volLblW or 0
+	local lRadW = self._radLblW or 0
+	local rShpW = self._shapeLblW or 0
+	local rLbW = self._lbLblW or 0
+	local rPriW = self._prioLblW or 0
+	local rVolW = lVolW
 
 	local topY = (self:titleBarHeight() or 20) + pad
 	local leftW = math.floor((self.width - pad * 2 - colGap) / 2)
 	local rightX = pad + leftW + colGap
 	local rightW = self.width - rightX - pad
 
-	local lCtrlX = pad + lLblW + rowG
-	local lCtrlW = leftW - lLblW - rowG
-	local rCtrlX = rightX + rLblW + rowG
-	local rCtrlW = rightW - rLblW - rowG
-	local lSlW = math.max(numW, lCtrlW - slValW - rowG)
-	local rSlW = math.max(numW, rCtrlW - slValW - rowG)
+	local lTgtX = pad + lTgtW + rowG
+	local lVolX = pad + lVolW + rowG
+	local lRadX = pad + lRadW + rowG
+	local rShpX = rightX + rShpW + rowG
+	local rLbX = rightX + rLbW + rowG
+	local rPriX = rightX + rPriW + rowG
+	local rVolX = rightX + rVolW + rowG
+	local rRadX = rightX + lRadW + rowG
+
+	local lVolSlW = math.max(numW, leftW - lVolW - rowG - slValW - rowG)
+	local rVolSlW = math.max(numW, rightW - rVolW - rowG - slValW - rowG)
 
 	local belowSoundList = rowG
 		+ bH
@@ -698,6 +616,7 @@ function GlobalSoundEffects_Panel:layoutChildren()
 
 	setBounds(self.soundListTitle, pad, lY, leftW, FONT_HGT_SMALL)
 	lY = lY + FONT_HGT_SMALL + lblG
+	local lYBeforeList = lY
 	resizeList(self.titlesList, pad, lY, leftW, soundListH)
 	lY = lY + soundListH + rowG
 
@@ -721,13 +640,13 @@ function GlobalSoundEffects_Panel:layoutChildren()
 	setBounds(self.manualControlsHint, pad, lY, leftW, FONT_HGT_SMALL)
 	lY = lY + FONT_HGT_SMALL + secG
 
-	setBounds(self.manualTargetLabel, lCtrlX - lTgtW - rowG, rowLblY(lY, bH, sm), lTgtW, FONT_HGT_SMALL)
-	setBounds(self.manualTargetCombo, lCtrlX, lY, lCtrlW, bH)
+	setBounds(self.manualTargetLabel, pad, rowLblY(lY, bH, sm), lTgtW, FONT_HGT_SMALL)
+	setBounds(self.manualTargetCombo, lTgtX, lY, leftW - lTgtW - rowG, bH)
 	lY = lY + bH + rowG
 
-	local lSlValX = lCtrlX + lSlW + rowG
-	setBounds(self.manualVolumeLabel, lCtrlX - lVolW - rowG, rowLblY(lY, bH, sm), lVolW, FONT_HGT_SMALL)
-	setBounds(self.manualVolumeSlider, lCtrlX, lY, lSlW, bH)
+	local lSlValX = lVolX + lVolSlW + rowG
+	setBounds(self.manualVolumeLabel, pad, rowLblY(lY, bH, sm), lVolW, FONT_HGT_SMALL)
+	setBounds(self.manualVolumeSlider, lVolX, lY, lVolSlW, bH)
 	setBounds(self.manualVolumeValue, lSlValX, rowLblY(lY, bH, sm), slValW, FONT_HGT_SMALL)
 	self.manualVolumeValue.originalX = lSlValX
 	lY = lY + bH + rowG
@@ -739,9 +658,9 @@ function GlobalSoundEffects_Panel:layoutChildren()
 	setBounds(self.manualCoordsLabel, pad, lY, leftW, FONT_HGT_SMALL)
 	self.manualCoordsLabel.originalX = pad
 	lY = lY + FONT_HGT_SMALL + rowG
-	setBounds(self.manualRadiusLabel, lCtrlX - lRadW - rowG, rowLblY(lY, bH, sm), lRadW, FONT_HGT_SMALL)
-	setBounds(self.manualRadiusEntry, lCtrlX, lY, numW, bH)
-	setBounds(self.pickManualBtn, lCtrlX + numW + rowG, lY, self._pickManualW, bH)
+	setBounds(self.manualRadiusLabel, pad, rowLblY(lY, bH, sm), lRadW, FONT_HGT_SMALL)
+	setBounds(self.manualRadiusEntry, lRadX, lY, numW, bH)
+	setBounds(self.pickManualBtn, lRadX + numW + rowG, lY, self._pickManualW, bH)
 	lY = lY + bH + rowG
 
 	setBounds(self.manualPlayHint, pad, lY, leftW, FONT_HGT_SMALL)
@@ -753,21 +672,21 @@ function GlobalSoundEffects_Panel:layoutChildren()
 	setBounds(self.triggerHint, rightX, rY, rightW, FONT_HGT_SMALL)
 	rY = rY + FONT_HGT_SMALL + secG
 
-	setBounds(self.triggerShapeLabel, rCtrlX - rShpW - rowG, rowLblY(rY, bH, sm), rShpW, FONT_HGT_SMALL)
-	setBounds(self.triggerShapeCombo, rCtrlX, rY, rCtrlW, bH)
+	setBounds(self.triggerShapeLabel, rightX, rowLblY(rY, bH, sm), rShpW, FONT_HGT_SMALL)
+	setBounds(self.triggerShapeCombo, rShpX, rY, rightW - rShpW - rowG, bH)
 	rY = rY + bH + rowG
 
-	setBounds(self.triggerLabelLabel, rCtrlX - rLbW - rowG, rowLblY(rY, bH, sm), rLbW, FONT_HGT_SMALL)
-	setBounds(self.triggerLabelEntry, rCtrlX, rY, rCtrlW, bH)
+	setBounds(self.triggerLabelLabel, rightX, rowLblY(rY, bH, sm), rLbW, FONT_HGT_SMALL)
+	setBounds(self.triggerLabelEntry, rLbX, rY, rightW - rLbW - rowG, bH)
 	rY = rY + bH + rowG
 
-	setBounds(self.triggerPriorityLabel, rCtrlX - rPriW - rowG, rowLblY(rY, bH, sm), rPriW, FONT_HGT_SMALL)
-	setBounds(self.triggerPriorityEntry, rCtrlX, rY, rCtrlW, bH)
+	setBounds(self.triggerPriorityLabel, rightX, rowLblY(rY, bH, sm), rPriW, FONT_HGT_SMALL)
+	setBounds(self.triggerPriorityEntry, rPriX, rY, rightW - rPriW - rowG, bH)
 	rY = rY + bH + rowG
 
-	local rSlValX = rCtrlX + rSlW + rowG
-	setBounds(self.triggerVolumeLabel, rCtrlX - rVolW - rowG, rowLblY(rY, bH, sm), rVolW, FONT_HGT_SMALL)
-	setBounds(self.triggerVolumeSlider, rCtrlX, rY, rSlW, bH)
+	local rSlValX = rVolX + rVolSlW + rowG
+	setBounds(self.triggerVolumeLabel, rightX, rowLblY(rY, bH, sm), rVolW, FONT_HGT_SMALL)
+	setBounds(self.triggerVolumeSlider, rVolX, rY, rVolSlW, bH)
 	setBounds(self.triggerVolumeValue, rSlValX, rowLblY(rY, bH, sm), slValW, FONT_HGT_SMALL)
 	self.triggerVolumeValue.originalX = rSlValX
 	rY = rY + bH + rowG
@@ -782,9 +701,9 @@ function GlobalSoundEffects_Panel:layoutChildren()
 	self.triggerCorner1Label.originalX = rightX
 	rY = rY + FONT_HGT_SMALL + rowG
 
-	setBounds(self.triggerRadiusLabel, rightX, rowLblY(rY, bH, sm), rLblW, FONT_HGT_SMALL)
-	setBounds(self.triggerRadiusEntry, rCtrlX, rY, numW, bH)
-	setBounds(self.pickTriggerCenterBtn, rCtrlX + numW + rowG, rY, self._pickCenterW, bH)
+	setBounds(self.triggerRadiusLabel, rightX, rowLblY(rY, bH, sm), lRadW, FONT_HGT_SMALL)
+	setBounds(self.triggerRadiusEntry, rRadX, rY, numW, bH)
+	setBounds(self.pickTriggerCenterBtn, rRadX + numW + rowG, rY, self._pickCenterW, bH)
 	setBounds(self.pickTriggerCorner1Btn, rightX, rY, self._pickCorner1W, bH)
 	rY = rY + bH + rowG
 
@@ -800,6 +719,7 @@ function GlobalSoundEffects_Panel:layoutChildren()
 
 	setBounds(self.triggerListTitle, rightX, rY, rightW, FONT_HGT_SMALL)
 	rY = rY + FONT_HGT_SMALL + lblG
+	local rYBeforeList = rY
 	local triggerListH = math.max(iH * 3, self.height - rY - rowG - bH - pad)
 	resizeList(self.triggerList, rightX, rY, rightW, triggerListH)
 	rY = rY + triggerListH + rowG
@@ -808,6 +728,8 @@ function GlobalSoundEffects_Panel:layoutChildren()
 	local statusX = rightX + self._deleteW + rowG
 	setBounds(self.triggerStatusLabel, statusX, rowLblY(rY, bH, sm), rightW - self._deleteW - rowG, FONT_HGT_SMALL)
 	self.triggerStatusLabel.originalX = statusX
+
+	self.minimumHeight = math.max(lYBeforeList + iH * 3 + belowSoundList, rYBeforeList + iH * 3 + rowG + bH + pad)
 end
 
 function GlobalSoundEffects_Panel:onResize()
