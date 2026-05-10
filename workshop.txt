@@ -1,13 +1,13 @@
 version=1
 id=3053132804
 title=[B41] Global Sound Effects
-description=Unleash immersive audio experiences across your game world with Global Sound Effects.  Perfect for admins aiming to enhance atmospheric immersion.
+description=Unleash immersive audio experiences across your game world with Global Sound Effects. Perfect for admins aiming to enhance atmospheric immersion. Open the full panel from the [b]Dock Menu[/b] ([b]ElyonLib[/b]) or by right-clicking the ground-both paths land on the same Elyon-themed mixer.
 description=
 description=Global Sound Effects is an admin-focused audio tool. It lets admins manually broadcast sounds, queue temporary effects, and create persistent automatic sound zones that react to player movement.
 description=
 description=[b]How it works[/b]
 description=[list]
-description=[*] Right-click the ground and open [i]Global Sound Effects Menu[/i].
+description=[*] Use the [b]Dock Menu[/b] button added by ElyonLib [i]or[/i] right-click the ground and open [i]Global Sound Effects Menu[/i].
 description=[*] The [b]left side[/b] of the panel is for [b]Manual Playback[/b]: temporary admin-triggered sounds, the currently playing sound, and the effects queue.
 description=[*] The [b]right side[/b] of the panel is for [b]Persistent Areas / Epicenters[/b]: saved automatic sound zones that play when players enter them.
 description=[*] The currently selected sound in the left-side sound list is also the sound used when saving a persistent area or epicenter on the right side.
@@ -128,6 +128,11 @@ description=
 description=[i]For a working example, inspect the included [b]GlobalSoundEffectsAddon[/b] files in this Workshop package.[/i]
 description=
 description=Ideal for role-play servers, admin-run events, ambient storytelling, alarms, military flyovers, horror scenes, and other world-scale audio moments.
+description=
+description=[h2]Requirements[/h2]
+description=[list]
+description=[*][b]ElyonLib[/b] - load before Global Sound Effects. It registers the Dock Menu shortcut, applies the dark UI skin used across the mixer and trigger editors, and provides layout/input helpers for the UI.
+description=[/list]
 description=
 description=[url=https://discord.gg/asA9BuAasd] [img] https://raw.githubusercontent.com/eI1on/workshop_resources/main/workshop_images/Workshop_Desc_PZ_Modding_Disc.png [/img] [/url]
 description=[img] https://imgur.com/eZp8dXD.png [/img]

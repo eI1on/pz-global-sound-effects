@@ -70,14 +70,14 @@ Events.OnServerCommand.Add(function(module, command, args)
 	end
 end)
 
-local doCommand = false;
+local doCommand = false
 local function sendCommand()
 	if doCommand then
 		GSE_Triggers_Client.init()
-		Events.OnTick.Remove(sendCommand);
+		Events.OnTick.Remove(sendCommand)
 	end
-	doCommand = true;
+	doCommand = true
 end
-Events.OnTick.Add(sendCommand);
+Events.OnTick.Add(sendCommand)
 
 return GlobalSoundEffects

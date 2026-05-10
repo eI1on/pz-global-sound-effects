@@ -62,8 +62,12 @@ local function sameRequest(a, b)
 	if not a or not b then
 		return false
 	end
-	return a.sound == b.sound and a.volume == b.volume and a.loop == b.loop and a.source == b.source
-		and a.sourceKey == b.sourceKey and a.label == b.label
+	return a.sound == b.sound
+		and a.volume == b.volume
+		and a.loop == b.loop
+		and a.source == b.source
+		and a.sourceKey == b.sourceKey
+		and a.label == b.label
 end
 
 local function stopCurrent()
@@ -130,8 +134,10 @@ function GSE_AudioEngine.update()
 	if not GSE_AudioEngine._currentRequest then
 		GSE_AudioEngine._playNextEligible()
 	elseif GSE_AudioEngine._currentRequest.source == "trigger" then
-		if GSE_AudioEngine._pendingTrigger
-			and not sameRequest(GSE_AudioEngine._currentRequest, GSE_AudioEngine._pendingTrigger) then
+		if
+			GSE_AudioEngine._pendingTrigger
+			and not sameRequest(GSE_AudioEngine._currentRequest, GSE_AudioEngine._pendingTrigger)
+		then
 			GSE_AudioEngine._playNow(GSE_AudioEngine._pendingTrigger)
 		end
 	end
